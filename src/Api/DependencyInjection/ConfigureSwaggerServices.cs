@@ -13,18 +13,17 @@ namespace TvMaze.Api.DependencyInjection
         /// The AddSwaggerServices.
         /// </summary>
         /// <param name="services">The services<see cref="IServiceCollection"/>.</param>
-        /// <param name="configuration">The configuration<see cref="IConfiguration"/>.</param>
+        /// <param name="apiSettings">The apiSettings<see cref="ApiSettings"/>.</param>
         /// <returns>The <see cref="IServiceCollection"/>.</returns>
-        public static IServiceCollection AddSwaggerService(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddSwaggerService(this IServiceCollection services, ApiSettings apiSettings)
         {
-            var appSettings = configuration.GetSection("ApiSettings").Get<ApiSettings>();
             services.AddSwaggerGen(c =>
         {
             c.SwaggerDoc("v1", new OpenApiInfo
             {
-                Title = appSettings?.ApiTitle,
-                Version = appSettings?.ApiVersion,
-                Description = appSettings?.ApiDescription,
+                Title = apiSettings?.ApiTitle,
+                Version = apiSettings?.ApiVersion,
+                Description = apiSettings?.ApiDescription,
             });
 
             c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{AppDomain.CurrentDomain.FriendlyName}.xml"));

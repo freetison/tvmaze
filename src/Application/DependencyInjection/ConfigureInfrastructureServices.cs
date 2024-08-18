@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using StackExchange.Redis;
 
-using TvMaze.Application.Common.Exceptions;
 using TvMaze.Application.Common.Interfaces;
 using TvMaze.Application.Common.Models.Settings;
 using TvMaze.Application.Infrastructure.Files;
@@ -27,17 +25,11 @@ namespace TvMaze.Application.DependencyInjection
         /// The AddInfrastructure.
         /// </summary>
         /// <param name="services">The services<see cref="IServiceCollection"/>.</param>
-        /// <param name="configuration">The configuration<see cref="IConfiguration"/>.</param>
+        /// <param name="apiSettings">The apiSettings<see cref="ApiSettings"/>.</param>
         /// <returns>The <see cref="IServiceCollection"/>.</returns>
-        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, ApiSettings apiSettings)
         {
-            var settings = configuration.GetSection("ApiSettings").Get<ApiSettings>();
-            if (settings == null)
-            {
-                throw new NoConfigurationException();
-            }
-
-            if (settings.Options.UseInMemoryDatabase)
+            if (apiSettings.Options.UseInMemoryDatabase)
             {
                 services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseInMemoryDatabase(DatabaseName));
@@ -46,13 +38,13 @@ namespace TvMaze.Application.DependencyInjection
             {
                 services.AddDbContext<ApplicationDbContext>(options =>
                   options.UseSqlServer(
-                      settings.ConnectionStrings.SqlServer,
+                      apiSettings.ConnectionStrings.SqlServer,
                       sqlServerOptionsAction: sqlOptions => sqlOptions.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
             }
 
             services.AddSingleton<IConnectionMultiplexer>(sp =>
             {
-                return ConnectionMultiplexer.Connect(settings.ConnectionStrings.Redis);
+                return ConnectionMultiplexer.Connect(apiSettings.ConnectionStrings.Redis);
             });
 
             services.AddScoped<IDomainEventService, DomainEventService>();

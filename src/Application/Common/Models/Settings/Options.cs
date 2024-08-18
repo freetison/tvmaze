@@ -6,5 +6,7 @@ namespace TvMaze.Application.Common.Models.Settings
     public class Options
     {
         public bool UseInMemoryDatabase { get; set; } = false;
+        public int RequestLimitPerMinutes { get; set; } = 100;
+        public string ApiKey { get; set; } = string.Empty;
     }
 }

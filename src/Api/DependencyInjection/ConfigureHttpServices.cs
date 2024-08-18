@@ -16,15 +16,13 @@ namespace TvMaze.Api.DependencyInjection
         /// The AddHttpServices.
         /// </summary>
         /// <param name="services">The services<see cref="IServiceCollection"/>.</param>
-        /// <param name="configuration">The configuration<see cref="IConfiguration"/>.</param>
+        /// <param name="apiSettings">The apiSettings<see cref="ApiSettings"/>.</param>
         /// <returns>The <see cref="IServiceCollection"/>.</returns>
-        public static IServiceCollection AddHttpServices(this IServiceCollection services, IConfiguration configuration)
+        public static IServiceCollection AddHttpServices(this IServiceCollection services, ApiSettings apiSettings)
         {
-            var settings = configuration.GetSection("ApiSettings").Get<ApiSettings>();
-
             services.AddSingleton<IRestClient>(sp =>
             {
-                var baseUrl = settings?.ExternalApi?.BaseUrl ?? string.Empty;
+                var baseUrl = apiSettings?.ExternalApi?.BaseUrl ?? string.Empty;
 
                 var options = new RestClientOptions(baseUrl)
                 {
