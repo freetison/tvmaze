@@ -4,13 +4,12 @@ using Moq;
 
 using TvMaze.Application.Common.Behaviours;
 using TvMaze.Application.Common.Interfaces;
-using TvMaze.Application.Features.TodoItems;
 
 namespace TvMaze.Application.UnitTests.Common.Behaviours;
 
 public class RequestLoggerTests
 {
-    private readonly Mock<ILogger<CreateTodoItemCommand>> _logger;
+    // private readonly Mock<ILogger<CreateTodoItemCommand>> _logger;
     private readonly Mock<ICurrentUserService> _currentUserService;
 
     public RequestLoggerTests()

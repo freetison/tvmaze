@@ -5,7 +5,6 @@ using StackExchange.Redis;
 
 using TvMaze.Application.Common.Interfaces;
 using TvMaze.Application.Common.Models.Settings;
-using TvMaze.Application.Infrastructure.Files;
 using TvMaze.Application.Infrastructure.Persistence;
 using TvMaze.Application.Infrastructure.Services;
 
@@ -47,10 +46,7 @@ namespace TvMaze.Application.DependencyInjection
                 return ConnectionMultiplexer.Connect(apiSettings.ConnectionStrings.Redis);
             });
 
-            services.AddScoped<IDomainEventService, DomainEventService>();
-
             services.AddTransient<IDateTime, DateTimeService>();
-            services.AddTransient<ICsvFileBuilder, CsvFileBuilder>();
 
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
 

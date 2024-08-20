@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace TvMaze.Application.Features
 {
@@ -13,32 +12,32 @@ namespace TvMaze.Application.Features
         /// </summary>
         private static readonly List<IFeature> RegisteredFeatures = new List<IFeature>();
 
-        /// <summary>
-        /// The RegisterFeatures.
-        /// </summary>
-        /// <param name="services">The services<see cref="IServiceCollection"/>.</param>
-        /// <returns>The <see cref="IServiceCollection"/>.</returns>
-        public static IServiceCollection RegisterFeatures(this IServiceCollection services)
-        {
-            RegisteredFeatures.AddRange(DiscoverFeatures()
-            .Select(feature =>
-            {
-                feature.RegisterFeature(services);
-                return feature;
-            }));
+        ///// <summary>
+        ///// The RegisterFeatures.
+        ///// </summary>
+        ///// <param name="services">The services<see cref="IServiceCollection"/>.</param>
+        ///// <returns>The <see cref="IServiceCollection"/>.</returns>
+        // public static IServiceCollection RegisterFeatures(this IServiceCollection services)
+        // {
+        //    RegisteredFeatures.AddRange(DiscoverFeatures()
+        //    .Select(feature =>
+        //    {
+        //        feature.RegisterFeature(services);
+        //        return feature;
+        //    }));
 
-            return services;
-        }
+        // return services;
+        // }
 
         /// <summary>
         /// The MapEndpoints.
         /// </summary>
-        /// <param name="app">.</param>
+        /// <param name="app">The app<see cref="WebApplication"/>.</param>
         /// <returns>The <see cref="WebApplication"/>.</returns>
         public static WebApplication MapEndpoints(this WebApplication app)
         {
+            RegisteredFeatures.AddRange(DiscoverFeatures());
             RegisteredFeatures.ForEach(feature => feature.MapEndpoints(app));
-
             return app;
         }
 

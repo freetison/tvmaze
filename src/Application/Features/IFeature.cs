@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Routing;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace TvMaze.Application.Features
 {
@@ -8,12 +7,12 @@ namespace TvMaze.Application.Features
     /// </summary>
     public interface IFeature
     {
-        /// <summary>
-        /// Registers the necessary services for this feature in the dependency injection container.
-        /// </summary>
-        /// <param name="services">The <see cref="IServiceCollection"/> where services are registered.</param>
-        /// <returns>The modified <see cref="IServiceCollection"/>.</returns>
-        IServiceCollection RegisterFeature(IServiceCollection services);
+        ///// <summary>
+        ///// Registers the necessary services for this feature in the dependency injection container.
+        ///// </summary>
+        ///// <param name="services">The <see cref="IServiceCollection"/> where services are registered.</param>
+        ///// <returns>The modified <see cref="IServiceCollection"/>.</returns>
+        // IServiceCollection RegisterFeature(IServiceCollection services);
 
         /// <summary>
         /// Maps the endpoints related to this feature into the application's endpoint routing system.

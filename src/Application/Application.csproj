@@ -1,9 +1,22 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
+    <Compile Remove="Features\TodoLists\**" />
+    <EmbeddedResource Remove="Features\TodoLists\**" />
+    <None Remove="Features\TodoLists\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="Features\TodoItems\DeleteTodoItem.cs" />
+    <Compile Remove="Features\TodoItems\GetTodoItemsWithPagination.cs" />
+    <Compile Remove="Features\TodoItems\UpdateTodoItem.cs" />
+    <Compile Remove="Features\TodoItems\UpdateTodoItemDetail.cs" />
+    <Compile Remove="Features\TodoItems\_CreateTodoItem.cs" />
+  </ItemGroup>
+  <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Identity" />
     <PackageReference Include="CsvHelper" />
     <PackageReference Include="ErrorOr" />
     <PackageReference Include="FluentValidation" />
@@ -14,9 +27,11 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
       <PackageReference Include="RestSharp" />
       <PackageReference Include="StackExchange.Redis" />
+      <PackageReference Include="System.Formats.Asn1" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Domain\ValueObjects\" />
+    <Folder Include="Features\TodoItems\Models\" />
   </ItemGroup>
 </Project>

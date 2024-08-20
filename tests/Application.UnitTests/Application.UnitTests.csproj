@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Common\Behaviours\RequestLoggerTests.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentAssertions" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" />
     <PackageReference Include="xunit" />
@@ -25,6 +29,7 @@
     </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Common\Behaviours\" />
     <Folder Include="ValueObjects\" />
   </ItemGroup>
 
