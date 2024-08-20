@@ -8,25 +8,15 @@ using TvMaze.Application.Domain.Todos;
 
 namespace TvMaze.Application.Infrastructure.Persistence;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext(
+    DbContextOptions<ApplicationDbContext> options,
+    ICurrentUserService currentUserService,
+    IDomainEventService domainEventService,
+    IDateTime dateTime) : DbContext(options)
 {
-    private readonly ICurrentUserService _currentUserService;
-    private readonly IDateTime _dateTime;
-
-    // private readonly IDomainEventService _domainEventService;
-    public ApplicationDbContext(
-        DbContextOptions<ApplicationDbContext> options,
-        ICurrentUserService currentUserService,
-        IDateTime dateTime)
-
-        // IDomainEventService domainEventService,
-        : base(options)
-    {
-        _currentUserService = currentUserService;
-
-        // _domainEventService = domainEventService;
-        _dateTime = dateTime;
-    }
+    private readonly ICurrentUserService _currentUserService = currentUserService;
+    private readonly IDateTime _dateTime = dateTime;
+    private readonly IDomainEventService _domainEventService = domainEventService;
 
     public DbSet<TodoList> TodoLists => Set<TodoList>();
 
@@ -65,7 +55,7 @@ public class ApplicationDbContext : DbContext
 
         var result = await base.SaveChangesAsync(cancellationToken);
 
-        // await DispatchEvents(events);
+        await DispatchEvents(events);
         return result;
     }
 
@@ -76,12 +66,12 @@ public class ApplicationDbContext : DbContext
         base.OnModelCreating(builder);
     }
 
-    // private async Task DispatchEvents(DomainEvent[] events)
-    // {
-    //    foreach (var @event in events)
-    //    {
-    //        @event.IsPublished = true;
-    //        await _domainEventService.Publish(@event);
-    //    }
-    // }
+    private async Task DispatchEvents(DomainEvent[] events)
+    {
+        foreach (var @event in events)
+        {
+            @event.IsPublished = true;
+            await _domainEventService.Publish(@event);
+        }
+    }
 }

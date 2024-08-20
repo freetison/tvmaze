@@ -5,6 +5,7 @@ using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
 using TvMaze.Application.Common.Behaviours;
+using TvMaze.Application.Infrastructure.Services;
 
 namespace TvMaze.Application.DependencyInjection
 {
@@ -21,6 +22,7 @@ namespace TvMaze.Application.DependencyInjection
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddMemoryCache();
+            services.AddScoped<InMemoryCache>();
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             services.AddMediatR(options =>
@@ -33,7 +35,6 @@ namespace TvMaze.Application.DependencyInjection
                 options.AddOpenBehavior(typeof(UnhandledExceptionBehaviour<,>));
             });
 
-            // services.RegisterFeatures();
             return services;
         }
     }
