@@ -1,9 +1,9 @@
-﻿using System.Diagnostics;
-
-using RestSharp.Interceptors;
-
-namespace TvMaze.Application.Infrastructure.Utils
+﻿namespace TvMaze.Application.Infrastructure.Utils
 {
+    using System.Diagnostics;
+
+    using RestSharp.Interceptors;
+
     /// <summary>
     /// Defines the <see cref="BeforeCallInterceptor" />.
     /// </summary>

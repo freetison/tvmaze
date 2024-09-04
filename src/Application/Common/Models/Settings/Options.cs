@@ -1,7 +1,7 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace TvMaze.Application.Common.Models.Settings
+﻿namespace TvMaze.Application.Common.Models.Settings
 {
+    using System.Diagnostics.CodeAnalysis;
+
     [ExcludeFromCodeCoverage]
     public class Options
     {

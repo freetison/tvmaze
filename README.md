@@ -5,6 +5,52 @@ This project is an experiment trying to create a API solution template that uses
 The Vertical Slice architecture style is about organizing code by features and vertical slices instead of organizing by technical concerns. It's about an idea of grouping code according to the business functionality and putting all the relevant code close together.
 Vertical Slice architecture can be a starting point and can be evolved later when an application become more sophisticated:
 
+
+## TvMaze-demo
+
+## Features
+
+[x] Vertical Slice Architecture: https://www.jimmybogard.com/vertical-slice-architecture/
+
+[x] Fast-endpoints: https://fast-endpoints.com/
+
+[x] RestSharp: https://restsharp.dev/
+
+[x] Docker
+
+[ ] Database: it just a demo, no persistance here.
+
+[x] Cors
+
+[x] Swagger
+
+[x] User Secretsonly for demo
+
+[x] Test : Nunit and shouldly
+
+## Execute using docker.
+
+    Need to have docker running
+    Execeute ``` docker-compose up --build ```  in the project root
+    open http://localhost:4201/ in a browser
+    ** this is just a demo, select a Monday and then pick a time for the Appointment
+
+## Generating Code Coverage HTML Report
+
+    Execute all from bash
+    dotnet tool install -g dotnet-reportgenerator-globaltool
+    dotnet tool install -g coverlet.console
+
+    # Run tests from /test/Api.Test
+    ./generate-coverage-report.sh
+
+
+
+
+
+
+
+
 > We can start simple (Transaction Script) and simply refactor to the patterns that emerges from code smells we see in the business logic. [Vertical slice architecture by Jimmy Bogard](https://jimmybogard.com/vertical-slice-architecture/).
 
 Check out my [blog post](https://nadirbad.dev/posts/vetical-slice-architecture-dotnet/) for more details about Vertical Slice Architecture.

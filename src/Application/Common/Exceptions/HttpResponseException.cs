@@ -1,20 +1,41 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-using Microsoft.AspNetCore.Mvc;
-
-namespace TvMaze.Application.Common.Exceptions;
-
-[ExcludeFromCodeCoverage]
-public class HttpResponseException : CustomException
+﻿namespace TvMaze.Application.Common.Exceptions
 {
-    public override int ErrorCode { get; set; }
+    using System.Diagnostics.CodeAnalysis;
+    using Microsoft.AspNetCore.Mvc;
 
-    public HttpResponseException(ProblemDetails? problemDetails)
+    /// <summary>
+    /// Defines the <see cref="HttpResponseException" />.
+    /// </summary>
+    [ExcludeFromCodeCoverage]
+    public class HttpResponseException : CustomException
+    {
+        /// <summary>
+        /// Gets or sets the ErrorCode.
+        /// </summary>
+        public override int ErrorCode { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HttpResponseException"/> class.
+        /// </summary>
+        /// <param name="problemDetails">The problemDetails.</param>
+        public HttpResponseException(ProblemDetails? problemDetails)
         : base(problemDetails?.Title ?? "An error occurred", problemDetails ?? new ProblemDetails()) => ErrorCode = problemDetails?.Status ?? 500;
 
-    public HttpResponseException(int code, string message)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HttpResponseException"/> class.
+        /// </summary>
+        /// <param name="code">The code<see cref="int"/>.</param>
+        /// <param name="message">The message<see cref="string"/>.</param>
+        public HttpResponseException(int code, string message)
         : base(code, message) => ErrorCode = code;
 
-    public HttpResponseException(int code, string message, Exception inner)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HttpResponseException"/> class.
+        /// </summary>
+        /// <param name="code">The code<see cref="int"/>.</param>
+        /// <param name="message">The message<see cref="string"/>.</param>
+        /// <param name="inner">The inner<see cref="Exception"/>.</param>
+        public HttpResponseException(int code, string message, Exception inner)
         : base(code, message, inner) => ErrorCode = code;
+    }
 }

@@ -1,8 +1,15 @@
-﻿using TvMaze.Application.Common.Interfaces;
-
-namespace TvMaze.Application.Infrastructure.Services;
-
-public class DateTimeService : IDateTime
+﻿namespace TvMaze.Application.Infrastructure.Services
 {
-    public DateTime Now => DateTime.Now;
+    using TvMaze.Application.Common.Interfaces;
+
+    /// <summary>
+    /// Defines the <see cref="DateTimeService" />.
+    /// </summary>
+    public class DateTimeService : IDateTime
+    {
+        /// <summary>
+        /// Gets the Now.
+        /// </summary>
+        public DateTime Now => DateTime.Now;
+    }
 }

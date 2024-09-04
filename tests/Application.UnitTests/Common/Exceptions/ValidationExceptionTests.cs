@@ -1,37 +1,50 @@
-﻿using FluentValidation.Results;
-
-using TvMaze.Application.Common.Exceptions;
-
-namespace TvMaze.Application.UnitTests.Common.Exceptions;
-
-public class ValidationExceptionTests
+﻿namespace TvMaze.Application.UnitTests.Common.Exceptions
 {
-    [Fact]
-    public void DefaultConstructorCreatesAnEmptyErrorDictionary()
-    {
-        var actual = new ValidationException().Errors;
+    using FluentValidation.Results;
+    using Shouldly;
+    using TvMaze.Application.Common.Exceptions;
+    using Xunit;
 
-        actual.Keys.Should().BeEquivalentTo(Array.Empty<string>());
-    }
-
-    [Fact]
-    public void SingleValidationFailureCreatesASingleElementErrorDictionary()
+    /// <summary>
+    /// Defines the <see cref="ValidationExceptionTests" />.
+    /// </summary>
+    public class ValidationExceptionTests
     {
-        var failures = new List<ValidationFailure>
+        /// <summary>
+        /// The DefaultConstructorCreatesAnEmptyErrorDictionary.
+        /// </summary>
+        [Fact]
+        public void DefaultConstructorCreatesAnEmptyErrorDictionary()
+        {
+            var actual = new ValidationException().Errors;
+
+            actual.Keys.ShouldBeEquivalentTo(Array.Empty<string>());
+        }
+
+        /// <summary>
+        /// The SingleValidationFailureCreatesASingleElementErrorDictionary.
+        /// </summary>
+        [Fact]
+        public void SingleValidationFailureCreatesASingleElementErrorDictionary()
+        {
+            var failures = new List<ValidationFailure>
         {
             new("Age", "must be over 18"),
         };
 
-        var actual = new ValidationException(failures).Errors;
+            var actual = new ValidationException(failures).Errors;
 
-        actual.Keys.Should().BeEquivalentTo(new string[] { "Age" });
-        actual["Age"].Should().BeEquivalentTo(new string[] { "must be over 18" });
-    }
+            actual.Keys.ShouldBeEquivalentTo(new string[] { "Age" });
+            actual["Age"].ShouldBeEquivalentTo(new string[] { "must be over 18" });
+        }
 
-    [Fact]
-    public void MulitpleValidationFailureForMultiplePropertiesCreatesAMultipleElementErrorDictionaryEachWithMultipleValues()
-    {
-        var failures = new List<ValidationFailure>
+        /// <summary>
+        /// The MulitpleValidationFailureForMultiplePropertiesCreatesAMultipleElementErrorDictionaryEachWithMultipleValues.
+        /// </summary>
+        [Fact]
+        public void MulitpleValidationFailureForMultiplePropertiesCreatesAMultipleElementErrorDictionaryEachWithMultipleValues()
+        {
+            var failures = new List<ValidationFailure>
         {
             new("Age", "must be 18 or older"),
             new("Age", "must be 25 or younger"),
@@ -41,22 +54,23 @@ public class ValidationExceptionTests
             new("Password", "must contain lower case letter"),
         };
 
-        var actual = new ValidationException(failures).Errors;
+            var actual = new ValidationException(failures).Errors;
 
-        actual.Keys.Should().BeEquivalentTo(new string[] { "Password", "Age" });
+            actual.Keys.ShouldBeEquivalentTo(new string[] { "Password", "Age" });
 
-        actual["Age"].Should().BeEquivalentTo(new string[]
-        {
+            actual["Age"].ShouldBeEquivalentTo(new string[]
+            {
             "must be 25 or younger",
             "must be 18 or older",
-        });
+            });
 
-        actual["Password"].Should().BeEquivalentTo(new string[]
-        {
+            actual["Password"].ShouldBeEquivalentTo(new string[]
+            {
             "must contain lower case letter",
             "must contain upper case letter",
             "must contain at least 8 characters",
             "must contain a digit",
-        });
+            });
+        }
     }
 }

@@ -1,7 +1,9 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace TvMaze.Application.Common.Models.Settings
+﻿namespace TvMaze.Application.Common.Models.Settings
 {
+    using System.Diagnostics.CodeAnalysis;
+
+    using TvMaze.RabbitMqProvider;
+
     /// <summary>
     /// Defines the <see cref="ApiSettings" />.
     /// </summary>
@@ -11,12 +13,12 @@ namespace TvMaze.Application.Common.Models.Settings
         /// <summary>
         /// Gets or sets the ApiTitle.
         /// </summary>
-        public required string ApiTitle { get; set; }
+        required public string ApiTitle { get; set; }
 
         /// <summary>
         /// Gets or sets the ApiVersion.
         /// </summary>
-        public required string ApiVersion { get; set; }
+        required public string ApiVersion { get; set; }
 
         /// <summary>
         /// Gets or sets the ApiDescription.
@@ -26,16 +28,21 @@ namespace TvMaze.Application.Common.Models.Settings
         /// <summary>
         /// Gets or sets the ConnectionStrings.
         /// </summary>
-        public required ConnectionStrings ConnectionStrings { get; set; }
+        required public ConnectionStrings ConnectionStrings { get; set; }
 
         /// <summary>
         /// Gets or sets the ExternalApi.
         /// </summary>
-        public required ExternalApi ExternalApi { get; set; }
+        required public ExternalApi ExternalApi { get; set; }
 
         /// <summary>
         /// Gets or sets the Options.
         /// </summary>
-        public required Options Options { get; set; }
+        required public Options Options { get; set; }
+
+        /// <summary>
+        /// Gets or sets the RabbitMqSettings.
+        /// </summary>
+        required public RabbitMqSettings RabbitMq { get; set; }
     }
 }

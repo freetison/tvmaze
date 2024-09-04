@@ -8,11 +8,11 @@
         /// <summary>
         /// Gets or sets the Redis.
         /// </summary>
-        public required string Redis { get; set; }
+        required public string Redis { get; set; }
 
         /// <summary>
         /// Gets or sets the SqlServer.
         /// </summary>
-        public required string SqlServer { get; set; }
+        required public string SqlServer { get; set; }
     }
 }

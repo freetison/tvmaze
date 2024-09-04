@@ -1,9 +1,8 @@
-﻿using Microsoft.OpenApi.Models;
-
-using TvMaze.Application.Common.Models.Settings;
-
-namespace TvMaze.Api.DependencyInjection
+﻿namespace TvMaze.Api.DependencyInjection
 {
+    using Microsoft.OpenApi.Models;
+    using TvMaze.Application.Common.Models.Settings;
+
     /// <summary>
     /// Defines the <see cref="ConfigureSwaggerServices" />.
     /// </summary>
@@ -26,6 +25,7 @@ namespace TvMaze.Api.DependencyInjection
                 Description = apiSettings?.ApiDescription,
             });
 
+            c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
             c.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{AppDomain.CurrentDomain.FriendlyName}.xml"));
         });
 

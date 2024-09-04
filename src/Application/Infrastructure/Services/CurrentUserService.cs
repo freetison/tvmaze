@@ -1,19 +1,33 @@
-using System.Security.Claims;
-
-using Microsoft.AspNetCore.Http;
-
-using TvMaze.Application.Common.Interfaces;
-
-namespace TvMaze.Application.Infrastructure.Services;
-
-public class CurrentUserService : ICurrentUserService
+namespace TvMaze.Application.Infrastructure.Services
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
+    using System.Security.Claims;
 
-    public CurrentUserService(IHttpContextAccessor httpContextAccessor)
+    using Microsoft.AspNetCore.Http;
+
+    using TvMaze.Application.Common.Interfaces;
+
+    /// <summary>
+    /// Defines the <see cref="CurrentUserService" />.
+    /// </summary>
+    public class CurrentUserService : ICurrentUserService
     {
-        _httpContextAccessor = httpContextAccessor;
-    }
+        /// <summary>
+        /// Defines the _httpContextAccessor.
+        /// </summary>
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-    public string UserId => _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier)!;
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CurrentUserService"/> class.
+        /// </summary>
+        /// <param name="httpContextAccessor">The httpContextAccessor<see cref="IHttpContextAccessor"/>.</param>
+        public CurrentUserService(IHttpContextAccessor httpContextAccessor)
+        {
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+        /// <summary>
+        /// Gets the UserId.
+        /// </summary>
+        public string UserId => _httpContextAccessor.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier)!;
+    }
 }

@@ -1,60 +1,67 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-using Microsoft.AspNetCore.Mvc;
-
-namespace TvMaze.Application.Common.Exceptions;
-
-[ExcludeFromCodeCoverage]
-public abstract class CustomException : Exception
+﻿namespace TvMaze.Application.Common.Exceptions
 {
-    /// <summary>
-    /// Gets or sets the error code associated with the exception.
-    /// </summary>
-    public abstract int ErrorCode { get; set; }
+    using System.Diagnostics.CodeAnalysis;
+    using Microsoft.AspNetCore.Mvc;
 
     /// <summary>
-    /// Gets or sets the ProblemDetails associated with the exception.
+    /// Defines the <see cref="CustomException" />.
     /// </summary>
-    public ProblemDetails? ProblemDetails { get; set; }
+    [ExcludeFromCodeCoverage]
+    public abstract class CustomException : Exception
+    {
+        /// <summary>
+        /// Gets or sets the error code associated with the exception.
+        /// </summary>
+        public abstract int ErrorCode { get; set; }
 
-    protected CustomException(string? message)
+        /// <summary>
+        /// Gets or sets the ProblemDetails associated with the exception.
+        /// </summary>
+        public ProblemDetails? ProblemDetails { get; set; }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CustomException"/> class.
+        /// </summary>
+        /// <param name="message">The message.</param>
+        protected CustomException(string? message)
     : base(message)
-    {
-    }
+        {
+        }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CustomException"/> class with a specified error code, message, and ProblemDetails.
-    /// </summary>
-    /// <param name="code">The error code associated with the exception.</param>
-    /// <param name="message">The message that describes the error.</param>
-    protected CustomException(int code, string message)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CustomException"/> class.
+        /// </summary>
+        /// <param name="code">The error code associated with the exception.</param>
+        /// <param name="message">The message that describes the error.</param>
+        protected CustomException(int code, string message)
         : base(message)
-    {
-        HResult = code;
-        ErrorCode = code;
-    }
+        {
+            HResult = code;
+            ErrorCode = code;
+        }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CustomException"/> class with a specified error code, message, inner exception, and ProblemDetails.
-    /// </summary>
-    /// <param name="code">The error code associated with the exception.</param>
-    /// <param name="message">The message that describes the error.</param>
-    /// <param name="inner">The exception that is the cause of the current exception.</param>
-    protected CustomException(int code, string message, Exception inner)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CustomException"/> class.
+        /// </summary>
+        /// <param name="code">The error code associated with the exception.</param>
+        /// <param name="message">The message that describes the error.</param>
+        /// <param name="inner">The exception that is the cause of the current exception.</param>
+        protected CustomException(int code, string message, Exception inner)
         : base(message, inner)
-    {
-        HResult = code;
-        ErrorCode = code;
-    }
+        {
+            HResult = code;
+            ErrorCode = code;
+        }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CustomException"/> class with a specified error message and ProblemDetails.
-    /// </summary>
-    /// <param name="message">The message that describes the error.</param>
-    /// <param name="problemDetails">The ProblemDetails object with additional error information.</param>
-    protected CustomException(string? message, ProblemDetails? problemDetails)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CustomException"/> class.
+        /// </summary>
+        /// <param name="message">The message that describes the error.</param>
+        /// <param name="problemDetails">The ProblemDetails object with additional error information.</param>
+        protected CustomException(string? message, ProblemDetails? problemDetails)
         : base(message)
-    {
-        ProblemDetails = problemDetails;
+        {
+            ProblemDetails = problemDetails;
+        }
     }
 }

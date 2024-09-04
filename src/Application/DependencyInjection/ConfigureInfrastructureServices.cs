@@ -1,25 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-
-using StackExchange.Redis;
-
-using TvMaze.Application.Common.Interfaces;
-using TvMaze.Application.Common.Models.Settings;
-using TvMaze.Application.Infrastructure.Persistence;
-using TvMaze.Application.Infrastructure.Services;
-
-namespace TvMaze.Application.DependencyInjection
+﻿namespace TvMaze.Application.DependencyInjection
 {
+    using Microsoft.Extensions.DependencyInjection;
+
+    using StackExchange.Redis;
+
+    using TvMaze.Application.Common.Models.Settings;
+
     /// <summary>
     /// Defines the <see cref="ConfigureInfrastructureServices" />.
     /// </summary>
     public static class ConfigureInfrastructureServices
     {
-        /// <summary>
-        /// Defines the DatabaseName.
-        /// </summary>
-        private const string DatabaseName = "TvMaze";
-
         /// <summary>
         /// The AddInfrastructure.
         /// </summary>
@@ -28,27 +19,16 @@ namespace TvMaze.Application.DependencyInjection
         /// <returns>The <see cref="IServiceCollection"/>.</returns>
         public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, ApiSettings apiSettings)
         {
-            if (apiSettings.Options.UseInMemoryDatabase)
-            {
-                services.AddDbContext<ApplicationDbContext>(options =>
-                    options.UseInMemoryDatabase(DatabaseName));
-            }
-            else
-            {
-                services.AddDbContext<ApplicationDbContext>(options =>
-                  options.UseSqlServer(
-                      apiSettings.ConnectionStrings.SqlServer,
-                      sqlServerOptionsAction: sqlOptions => sqlOptions.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
-            }
+            services.AddSqlserver(apiSettings);
 
             services.AddSingleton<IConnectionMultiplexer>(sp =>
-            {
-                return ConnectionMultiplexer.Connect(apiSettings.ConnectionStrings.Redis);
-            });
+             {
+                 return ConnectionMultiplexer.Connect(apiSettings.ConnectionStrings.Redis);
+             });
 
-            services.AddTransient<IDateTime, DateTimeService>();
+            services.AddRabbitMqProvider(apiSettings);
 
-            services.AddSingleton<ICurrentUserService, CurrentUserService>();
+            services.AddAppServices();
 
             return services;
         }

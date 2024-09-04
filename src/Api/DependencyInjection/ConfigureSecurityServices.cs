@@ -1,9 +1,8 @@
-﻿using System.Threading.RateLimiting;
-
-using TvMaze.Application.Common.Models.Settings;
-
-namespace TvMaze.Api.DependencyInjection
+﻿namespace TvMaze.Api.DependencyInjection
 {
+    using System.Threading.RateLimiting;
+    using TvMaze.Application.Common.Models.Settings;
+
     /// <summary>
     /// Defines the <see cref="ConfigureSecurityServices" />.
     /// </summary>

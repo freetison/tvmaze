@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Builder;
-
-namespace TvMaze.Application.Features
+﻿namespace TvMaze.Application.Features
 {
+    using Microsoft.AspNetCore.Builder;
+    using Microsoft.Extensions.DependencyInjection;
+
     /// <summary>
     /// Defines the <see cref="FeatureExtensions" />.
     /// </summary>
@@ -12,31 +13,14 @@ namespace TvMaze.Application.Features
         /// </summary>
         private static readonly List<IFeature> RegisteredFeatures = new List<IFeature>();
 
-        ///// <summary>
-        ///// The RegisterFeatures.
-        ///// </summary>
-        ///// <param name="services">The services<see cref="IServiceCollection"/>.</param>
-        ///// <returns>The <see cref="IServiceCollection"/>.</returns>
-        // public static IServiceCollection RegisterFeatures(this IServiceCollection services)
-        // {
-        //    RegisteredFeatures.AddRange(DiscoverFeatures()
-        //    .Select(feature =>
-        //    {
-        //        feature.RegisterFeature(services);
-        //        return feature;
-        //    }));
-
-        // return services;
-        // }
-
         /// <summary>
         /// The MapEndpoints.
         /// </summary>
         /// <param name="app">The app<see cref="WebApplication"/>.</param>
-        /// <returns>The <see cref="WebApplication"/>.</returns>
+        /// <returns>The <see cref="IServiceCollection"/>.</returns>
         public static WebApplication MapEndpoints(this WebApplication app)
         {
-            RegisteredFeatures.AddRange(DiscoverFeatures());
+            RegisteredFeatures.AddRange(DiscoverFeatures(app.Services));
             RegisteredFeatures.ForEach(feature => feature.MapEndpoints(app));
             return app;
         }
@@ -44,14 +28,25 @@ namespace TvMaze.Application.Features
         /// <summary>
         /// The DiscoverFeatures.
         /// </summary>
+        /// <param name="serviceProvider">The serviceProvider<see cref="IServiceProvider"/>.</param>
         /// <returns>The <see cref="IEnumerable{IFeature}"/>.</returns>
-        private static IEnumerable<IFeature> DiscoverFeatures()
+        private static IEnumerable<IFeature> DiscoverFeatures(IServiceProvider serviceProvider)
         {
-            return typeof(IFeature).Assembly
-                .GetTypes()
-                .Where(p => p.IsClass && p.IsAssignableTo(typeof(IFeature)))
-                .Select(Activator.CreateInstance)
-                .Cast<IFeature>();
+            {
+                var featureTypes = typeof(IFeature).Assembly
+                    .GetTypes()
+                    .Where(t => t.IsClass && !t.IsAbstract && typeof(IFeature).IsAssignableFrom(t));
+
+                foreach (var featureType in featureTypes)
+                {
+                    var feature = ActivatorUtilities.CreateInstance(serviceProvider, featureType) as IFeature;
+
+                    if (feature != null)
+                    {
+                        yield return feature;
+                    }
+                }
+            }
         }
     }
 }

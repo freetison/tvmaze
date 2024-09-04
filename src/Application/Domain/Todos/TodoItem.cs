@@ -1,46 +1,99 @@
-﻿using TvMaze.Application.Common;
-
-namespace TvMaze.Application.Domain.Todos;
-
-public class TodoItem : AuditableEntity, IHasDomainEvent
+﻿namespace TvMaze.Application.Domain.Todos
 {
-    public int Id { get; set; }
+    using TvMaze.Application.Common;
 
-    public int ListId { get; set; }
-
-    public string? Title { get; set; }
-
-    public string? Note { get; set; }
-
-    public PriorityLevel Priority { get; set; }
-
-    public DateTime? Reminder { get; set; }
-
-    private bool _done;
-    public bool Done
+    /// <summary>
+    /// Defines the <see cref="TodoItem" />.
+    /// </summary>
+    public class TodoItem : AuditableEntity, IHasDomainEvent
     {
-        get => _done;
-        set
+        /// <summary>
+        /// Gets or sets the Id.
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the ListId.
+        /// </summary>
+        public int ListId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Title.
+        /// </summary>
+        public string? Title { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Note.
+        /// </summary>
+        public string? Note { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Priority.
+        /// </summary>
+        public PriorityLevel Priority { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Reminder.
+        /// </summary>
+        public DateTime? Reminder { get; set; }
+
+        /// <summary>
+        /// Defines the _done.
+        /// </summary>
+        private bool _done;
+
+        /// <summary>
+        /// Gets or sets a value indicating whether Done.
+        /// </summary>
+        public bool Done
         {
-            if (value && _done == false)
+            get => _done;
+            set
             {
-                DomainEvents.Add(new TodoItemCompletedEvent(this));
+                if (value && _done == false)
+                {
+                    DomainEvents.Add(new TodoItemCompletedEvent(this));
+                }
+
+                _done = value;
             }
-
-            _done = value;
         }
+
+        /// <summary>
+        /// Gets or sets the List.
+        /// </summary>
+        public TodoList List { get; set; } = null!;
+
+        /// <summary>
+        /// Gets the DomainEvents.
+        /// </summary>
+        public List<DomainEvent> DomainEvents { get; } = new List<DomainEvent>();
     }
-
-    public TodoList List { get; set; } = null!;
-
-    public List<DomainEvent> DomainEvents { get; } = new List<DomainEvent>();
 }
 
+/// <summary>
+/// Defines the PriorityLevel.
+/// </summary>
 public enum PriorityLevel
 {
+    /// <summary>
+    /// Defines the None.
+    /// </summary>
     None = 0,
+
+    /// <summary>
+    /// Defines the Low.
+    /// </summary>
     Low = 1,
+
+    /// <summary>
+    /// Defines the Medium.
+    /// </summary>
     Medium = 2,
+
+    /// <summary>
+    /// Defines the High.
+    /// </summary>
     High = 3,
 }
 

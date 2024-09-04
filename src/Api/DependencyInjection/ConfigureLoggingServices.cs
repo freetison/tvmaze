@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.HttpLogging;
-
-namespace TvMaze.Api.DependencyInjection
+﻿namespace TvMaze.Api.DependencyInjection
 {
+    using Microsoft.AspNetCore.HttpLogging;
+
     /// <summary>
     /// Defines the <see cref="ConfigureLoggingServices" />.
     /// </summary>

@@ -1,10 +1,10 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace TvMaze.Application.Common.Models.Settings
+﻿namespace TvMaze.Application.Common.Models.Settings
 {
+    using System.Diagnostics.CodeAnalysis;
+
     [ExcludeFromCodeCoverage]
     public class ExternalApi
     {
-        public required string BaseUrl { get; set; }
+        required public string BaseUrl { get; set; }
     }
 }

@@ -1,12 +1,10 @@
-﻿using System.Text;
-
-using RestSharp;
-
-using TvMaze.Application.Common.Models.Settings;
-using TvMaze.Application.Infrastructure.Utils;
-
-namespace TvMaze.Api.DependencyInjection
+﻿namespace TvMaze.Api.DependencyInjection
 {
+    using System.Text;
+    using RestSharp;
+    using TvMaze.Application.Common.Models.Settings;
+    using TvMaze.Application.Infrastructure.Utils;
+
     /// <summary>
     /// Defines the <see cref="ConfigureHttpServices" />.
     /// </summary>

@@ -1,36 +1,56 @@
-﻿using FluentValidation;
-
-using MediatR;
-
-using ValidationException = TvMaze.Application.Common.Exceptions.ValidationException;
-
-namespace TvMaze.Application.Common.Behaviours;
-
-public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : IRequest<TResponse>
+﻿namespace TvMaze.Application.Common.Behaviours
 {
-    private readonly IEnumerable<IValidator<TRequest>> _validators;
+    using FluentValidation;
 
-    public ValidationBehaviour(IEnumerable<IValidator<TRequest>> validators)
-    {
-        _validators = validators;
-    }
+    using MediatR;
 
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    using ValidationException = TvMaze.Application.Common.Exceptions.ValidationException;
+
+    /// <summary>
+    /// Defines the <see cref="ValidationBehaviour{TRequest, TResponse}" />.
+    /// </summary>
+    /// <typeparam name="TRequest">.</typeparam>
+    /// <typeparam name="TResponse">..</typeparam>
+    public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : IRequest<TResponse>
     {
-        if (_validators.Any())
+        /// <summary>
+        /// Defines the _validators.
+        /// </summary>
+        private readonly IEnumerable<IValidator<TRequest>> _validators;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ValidationBehaviour{TRequest, TResponse}"/> class.
+        /// </summary>
+        /// <param name="validators">The validators"/>.</param>
+        public ValidationBehaviour(IEnumerable<IValidator<TRequest>> validators)
         {
-            var context = new ValidationContext<TRequest>(request);
-
-            var validationResults = await Task.WhenAll(_validators.Select(v => v.ValidateAsync(context, cancellationToken)));
-            var failures = validationResults.SelectMany(r => r.Errors).Where(f => f != null).ToList();
-
-            if (failures.Count != 0)
-            {
-                throw new ValidationException(failures);
-            }
+            _validators = validators;
         }
 
-        return await next();
+        /// <summary>
+        /// The Handle.
+        /// </summary>
+        /// <param name="request">The request.</param>
+        /// <param name="next">The next<see cref="RequestHandlerDelegate{TResponse}"/>.</param>
+        /// <param name="cancellationToken">The cancellationToken<see cref="CancellationToken"/>.</param>
+        /// <returns>The <see cref="Task{TResponse}"/>.</returns>
+        public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+        {
+            if (_validators.Any())
+            {
+                var context = new ValidationContext<TRequest>(request);
+
+                var validationResults = await Task.WhenAll(_validators.Select(v => v.ValidateAsync(context, cancellationToken)));
+                var failures = validationResults.SelectMany(r => r.Errors).Where(f => f != null).ToList();
+
+                if (failures.Count != 0)
+                {
+                    throw new ValidationException(failures);
+                }
+            }
+
+            return await next();
+        }
     }
 }

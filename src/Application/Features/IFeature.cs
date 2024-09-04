@@ -1,19 +1,12 @@
-﻿using Microsoft.AspNetCore.Routing;
-
-namespace TvMaze.Application.Features
+﻿namespace TvMaze.Application.Features
 {
+    using Microsoft.AspNetCore.Routing;
+
     /// <summary>
     /// Represents a feature in the application that can register services and map endpoints.
     /// </summary>
     public interface IFeature
     {
-        ///// <summary>
-        ///// Registers the necessary services for this feature in the dependency injection container.
-        ///// </summary>
-        ///// <param name="services">The <see cref="IServiceCollection"/> where services are registered.</param>
-        ///// <returns>The modified <see cref="IServiceCollection"/>.</returns>
-        // IServiceCollection RegisterFeature(IServiceCollection services);
-
         /// <summary>
         /// Maps the endpoints related to this feature into the application's endpoint routing system.
         /// </summary>
@@ -22,3 +15,4 @@ namespace TvMaze.Application.Features
         IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints);
     }
 }
+

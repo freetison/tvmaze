@@ -1,12 +1,25 @@
-﻿using TvMaze.Application.Common;
-
-namespace TvMaze.Application.Domain.Todos;
-
-public class TodoList : AuditableEntity
+﻿namespace TvMaze.Application.Domain.Todos
 {
-    public int Id { get; set; }
+    using TvMaze.Application.Common;
 
-    public string? Title { get; set; }
+    /// <summary>
+    /// Defines the <see cref="TodoList" />.
+    /// </summary>
+    public class TodoList : AuditableEntity
+    {
+        /// <summary>
+        /// Gets or sets the Id.
+        /// </summary>
+        public int Id { get; set; }
 
-    public IList<TodoItem> Items { get; private set; } = new List<TodoItem>();
+        /// <summary>
+        /// Gets or sets the Title.
+        /// </summary>
+        public string? Title { get; set; }
+
+        /// <summary>
+        /// Gets the Items.
+        /// </summary>
+        public IList<TodoItem> Items { get; private set; } = new List<TodoItem>();
+    }
 }

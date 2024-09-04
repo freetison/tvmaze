@@ -25,9 +25,15 @@ insert_final_newline = false
 [*.{cs,vb}]
 
 # Organize usings
-dotnet_separate_import_directive_groups = true
+dotnet_separate_import_directive_groups = false
 dotnet_sort_system_directives_first = true
 file_header_template = unset
+
+# Ensure System directives are sorted first
+dotnet_sort_system_directives_first = true
+
+# Place using directives inside the namespace
+csharp_using_directive_placement = inside_namespace
 
 # this. and Me. preferences
 dotnet_style_qualification_for_event = false:silent
@@ -421,6 +427,19 @@ dotnet_diagnostic.SA1615.severity = none
 
 # SA1649: File name should match first type name
 dotnet_diagnostic.SA1649.severity = none
+
+# SA1009: A closing parenthesis within a C# statement is not spaced correctly.
+dotnet_diagnostic.SA1009.severity = none
+
+# SA1200 A C# using directive is placed outside of a namespace element
+dotnet_diagnostic.SA1200.severity = error 
+
+# Disable SA1000 
+dotnet_diagnostic.SA1000.severity = none
+
+[src/Api/Program.cs]
+# Disable SA1200 for Program.cs file
+dotnet_diagnostic.SA1200.severity = none
 
 [**/Migrations/*]
 generated_code = true

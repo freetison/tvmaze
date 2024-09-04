@@ -1,18 +1,25 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
-using TvMaze.Application.Domain.Todos;
-
-namespace TvMaze.Application.Infrastructure.Persistence.Configurations;
-
-public class TodoItemConfiguration : IEntityTypeConfiguration<TodoItem>
+﻿namespace TvMaze.Application.Infrastructure.Persistence.Configurations
 {
-    public void Configure(EntityTypeBuilder<TodoItem> builder)
-    {
-        builder.Ignore(e => e.DomainEvents);
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Metadata.Builders;
+    using TvMaze.Application.Domain.Todos;
 
-        builder.Property(t => t.Title)
-            .HasMaxLength(200)
-            .IsRequired();
+    /// <summary>
+    /// Defines the <see cref="TodoItemConfiguration" />.
+    /// </summary>
+    public class TodoItemConfiguration : IEntityTypeConfiguration<TodoItem>
+    {
+        /// <summary>
+        /// The Configure.
+        /// </summary>
+        /// <param name="builder">The builder<see cref="EntityTypeBuilder{TodoItem}"/>.</param>
+        public void Configure(EntityTypeBuilder<TodoItem> builder)
+        {
+            builder.Ignore(e => e.DomainEvents);
+
+            builder.Property(t => t.Title)
+                .HasMaxLength(200)
+                .IsRequired();
+        }
     }
 }
