@@ -1,4 +1,4 @@
-﻿namespace TvMaze.RabbitMqProvider
+﻿namespace TvMaze.RabbitMqProvider.Models
 {
     /// <summary>
     /// Defines the <see cref="RabbitMqSettings" />.

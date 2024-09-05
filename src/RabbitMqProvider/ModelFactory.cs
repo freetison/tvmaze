@@ -1,6 +1,7 @@
 ﻿namespace TvMaze.RabbitMqProvider
 {
     using RabbitMQ.Client;
+    using TvMaze.RabbitMqProvider.Models;
 
     /// <summary>
     /// Defines the <see cref="ModelFactory" />.

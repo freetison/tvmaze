@@ -1,10 +1,10 @@
 ﻿namespace TvMaze.Application.DependencyInjection
 {
     using Microsoft.Extensions.DependencyInjection;
-
     using StackExchange.Redis;
-
     using TvMaze.Application.Common.Models.Settings;
+    using TvMaze.HttpServiceProvider.DependencyInjection;
+    using TvMaze.RabbitMqProvider.DependencyInjection;
 
     /// <summary>
     /// Defines the <see cref="ConfigureInfrastructureServices" />.
@@ -26,7 +26,8 @@
                  return ConnectionMultiplexer.Connect(apiSettings.ConnectionStrings.Redis);
              });
 
-            services.AddRabbitMqProvider(apiSettings);
+            services.AddRabbitMqProvider(apiSettings.RabbitMq);
+            services.AddHttpProviders(apiSettings.ExternalApi.BaseUrl);
 
             services.AddAppServices();
 

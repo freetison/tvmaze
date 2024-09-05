@@ -2,7 +2,6 @@
 {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
-
     using TvMaze.Application.Common.Models.Settings;
     using TvMaze.Application.Infrastructure.Persistence;
 

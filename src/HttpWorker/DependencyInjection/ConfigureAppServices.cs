@@ -1,9 +1,7 @@
-﻿using HttpServiceProvider.DependencyInjection;
-
-using TvMaze.HttpWorker.Workers;
-
-namespace TvMaze.HttpWorker.DependencyInjection
+﻿namespace TvMaze.HttpWorker.DependencyInjection
 {
+    using TvMaze.HttpWorker.Workers;
+
     public static class ConfigureAppServices
     {
         public static void ConfigureServices(HostBuilderContext hostContext, IServiceCollection services)
@@ -14,8 +12,6 @@ namespace TvMaze.HttpWorker.DependencyInjection
             // services.AddHttpServices(hostContext);
             services.AddHttpProviders(hostContext);
             services.AddHostedService<HttpServiceWorker>();
-
         }
-
     }
 }

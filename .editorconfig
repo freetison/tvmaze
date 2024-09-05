@@ -437,6 +437,15 @@ dotnet_diagnostic.SA1200.severity = error
 # Disable SA1000 
 dotnet_diagnostic.SA1000.severity = none
 
+# SA1111 The closing parenthesis should be on line of last parameter
+dotnet_diagnostic.SA1111.severity = none
+
+# SA1011 Closing square bracket should be followed by a space.
+dotnet_diagnostic.SA1011.severity = none
+
+#  Non-nullable property must contain a non-null value when exiting constructor. 
+dotnet_diagnostic.CS8618.severity = none
+
 [src/Api/Program.cs]
 # Disable SA1200 for Program.cs file
 dotnet_diagnostic.SA1200.severity = none

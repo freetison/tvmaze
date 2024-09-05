@@ -1,15 +1,23 @@
-﻿namespace TvMaze.Application.DependencyInjection
+﻿namespace TvMaze.RabbitMqProvider.DependencyInjection
 {
     using Microsoft.Extensions.DependencyInjection;
     using RabbitMQ.Client;
-    using TvMaze.Application.Common.Models.Settings;
     using TvMaze.RabbitMqProvider;
+    using TvMaze.RabbitMqProvider.Models;
 
+    /// <summary>
+    /// Defines the <see cref="ConfigureRabbitMqProvider" />.
+    /// </summary>
     public static class ConfigureRabbitMqProvider
     {
-        public static IServiceCollection AddRabbitMqProvider(this IServiceCollection services, ApiSettings apiSettings)
+        /// <summary>
+        /// The AddRabbitMqProvider.
+        /// </summary>
+        /// <param name="services">The services<see cref="IServiceCollection"/>.</param>
+        /// <param name="rabbitMqSettings">The rabbitMqSettings<see cref="RabbitMqSettings"/>.</param>
+        /// <returns>The <see cref="IServiceCollection"/>.</returns>
+        public static IServiceCollection AddRabbitMqProvider(this IServiceCollection services, RabbitMqSettings rabbitMqSettings)
         {
-            RabbitMqSettings rabbitMqSettings = apiSettings.RabbitMq;
             var connectionFactory = new ConnectionFactory
             {
                 UserName = rabbitMqSettings.RabbitMqUserName,
