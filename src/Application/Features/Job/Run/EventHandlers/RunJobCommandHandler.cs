@@ -9,6 +9,8 @@
     /// </summary>
     public class RunJobCommandHandler : IRequestHandler<RunJobCommand, Unit>
     {
+        private const string RoutingKey = "CommandQueue";
+
         /// <summary>
         /// Defines the _messageClientProvider.
         /// </summary>
@@ -31,7 +33,7 @@
         /// <returns>The <see cref="Task{Unit}"/>.</returns>
         public Task<Unit> Handle(RunJobCommand request, CancellationToken cancellationToken)
         {
-            _messageClientProvider.PublishMessage<string>("PULL", "amq.direct", "ServiceBus");
+            _messageClientProvider.PublishMessage<string>("PULL", "amq.direct", RoutingKey);
             return Task.FromResult(Unit.Value);
         }
     }

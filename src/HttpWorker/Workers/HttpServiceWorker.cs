@@ -37,12 +37,6 @@
         private async Task BackgroundProcessing(CancellationToken stoppingToken)
         {
             var queueName = appSettings.RabbitMq.RabbitMqQueueName;
-            if (string.IsNullOrEmpty(queueName))
-            {
-                logger.LogWarning("Queue name is not configured.");
-                return;
-            }
-
             var message = await rabbitMqClient.ReceiveMessage<string>(queueName);
 
             if (message != null)

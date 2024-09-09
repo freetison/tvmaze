@@ -18,7 +18,7 @@
             // };
 
             // await rabbitMqClientProvider.SendMessageAsync(message, "ExchangeMonitor");
-            _logger.LogInformation($"Message was sent to the queue");
+            _logger.LogInformation($"Message {notification.Command} was processed");
             return Task.CompletedTask;
         }
     }

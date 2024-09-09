@@ -1,14 +1,11 @@
 ﻿namespace TvMaze.RabbitMqProvider
 {
     using System.Text;
-
+    using System.Threading.Tasks;
     using Microsoft.Extensions.Logging;
-
     using Newtonsoft.Json;
-
     using RabbitMQ.Client;
     using RabbitMQ.Client.Events;
-
     using Tx.Core.Extensions.String;
 
     /// <summary>
@@ -42,51 +39,38 @@
         /// </summary>
         /// <typeparam name="T">.</typeparam>
         /// <param name="queueName">The queueName<see cref="string"/>.</param>
-        /// <returns>The "T?"/>.</returns>
-        public Task<T?> ReceiveMessage<T>(string queueName)
+        /// <returns>The Task.</returns>
+        public async Task<T?> ReceiveMessage<T>(string queueName)
         {
-            _channel.QueueDeclare(
-                queue: queueName,
-                durable: true,
-                exclusive: false,
-                autoDelete: false,
-                arguments: null);
+            _channel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
 
             var consumer = new AsyncEventingBasicConsumer(_channel);
-            T? receivedMessage = default;
+            TaskCompletionSource<T?> tcs = new();
 
             consumer.Received += async (model, ea) =>
             {
-                var body = ea.Body.ToArray();
-                var message = Encoding.UTF8.GetString(body);
-                receivedMessage = await Task.Run(() => message.ParseTo<T?>());
+                var message = Encoding.UTF8.GetString(ea.Body.ToArray());
+                var parsedMessage = message.ParseTo<T?>();
+
+                tcs.SetResult(parsedMessage);
+                await Task.Yield();
             };
 
-            _channel.BasicConsume(
-                queue: queueName,
-                autoAck: false,
-                consumer: consumer);
+            _channel.BasicConsume(queue: queueName, autoAck: false, consumer: consumer);
 
-            return Task.FromResult(receivedMessage ?? default);
-        }
-
-        /// <summary>
-        /// The Dispose.
-        /// </summary>
-        public void Dispose()
-        {
-            _channel?.Dispose();
+            // Wait for the message to be received
+            return await tcs.Task;
         }
 
         /// <summary>
         /// The PublishMessage.
         /// </summary>
         /// <typeparam name="T">.</typeparam>
-        /// <param name="message">The message/>.</param>
+        /// <param name="message">The message T.</param>
         /// <param name="exchangeName">The exchangeName<see cref="string"/>.</param>
         /// <param name="routingKey">The routingKey<see cref="string"/>.</param>
         /// <returns>The <see cref="Task"/>.</returns>
-        public Task PublishMessage<T>(T message, string exchangeName, string routingKey)
+        public async Task PublishMessage<T>(T message, string exchangeName, string routingKey)
         {
             try
             {
@@ -94,21 +78,29 @@
 
                 var body = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(message));
 
+                _channel.QueueDeclare(queue: routingKey, durable: true, exclusive: false, autoDelete: false, arguments: null);
+                _channel.QueueBind(queue: routingKey, exchange: exchangeName, routingKey: routingKey);
+
                 _channel.BasicPublish(
                     exchange: exchangeName,
                     routingKey: routingKey,
                     basicProperties: null,
                     body: body);
 
-                _logger.LogInformation("Published Message to Exchange: {ExchangeName} with Routing Key: {RoutingKey}. Message: {Message}", exchangeName, routingKey, message);
+                _logger.LogInformation($"Published Message to Exchange: {exchangeName} with Routing Key: {routingKey}. Message: {message}");
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Failed to publish message to Exchange: {ExchangeName} with Routing Key: {RoutingKey}", exchangeName, routingKey);
+                _logger.LogError(ex, $"Failed to publish message to Exchange: {exchangeName} with Routing Key: {routingKey}");
                 throw;
             }
 
-            return Task.CompletedTask;
+            await Task.CompletedTask;
         }
+
+        /// <summary>
+        /// The Dispose.
+        /// </summary>
+        public void Dispose() => _channel?.Dispose();
     }
 }
