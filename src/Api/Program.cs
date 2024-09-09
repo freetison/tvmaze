@@ -1,22 +1,24 @@
 using TvMaze.Api.DependencyInjection;
-using TvMaze.Application.Common.Exceptions;
-using TvMaze.Application.Common.Models.Settings;
 using TvMaze.Application.DependencyInjection;
 using TvMaze.Application.Features;
+using TvMaze.ShareCommon.Exceptions;
+using TvMaze.ShareCommon.Models.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
-var apiSettings = configuration.GetSection("ApiSettings").Get<ApiSettings>();
-if (apiSettings == null)
+var appSettings = configuration.GetSection("AppSettings").Get<AppSettings>();
+if (appSettings == null)
 {
-    throw new NoConfigurationException();
+    throw new MissingConfigurationException();
 }
 
+appSettings.CheckConfigurations();
+
 builder.Services
-    .AddApiServices(apiSettings)
+    .AddApiServices(appSettings)
     .AddApplicationServices()
-    .AddInfrastructureServices(apiSettings);
+    .AddInfrastructureServices(appSettings);
 
 var app = builder.Build();
 

@@ -1,31 +1,25 @@
-﻿using MediatR;
-
-using RabbitMqProvider.Producer;
-using RabbitMqProvider.Provider.RabbitMq;
-
-using Tx.Core.Extensions.String;
-
-namespace TvMaze.HttpWorker.EventHandlers;
-
-public class QueueProcessorHandler(ILogger<QueueProcessorHandler> logger, IServiceScopeFactory scopeFactory)
-    : INotificationHandler<ExchangeRatesEvent>
+﻿namespace TvMaze.HttpWorker.EventHandlers
 {
-    private readonly ILogger _logger = logger;
+    using MediatR;
 
-
-    public async Task Handle(ExchangeRatesEvent notification, CancellationToken cancellationToken)
+    public class QueueProcessorHandler(ILogger<QueueProcessorHandler> logger)
+    : INotificationHandler<QueueCommandsEvent>
     {
-        using var scope = scopeFactory.CreateScope();
-        var rabbitMqClientProvider = scope.ServiceProvider.GetRequiredService<IMessageProducer>();
-        var message = new RabbitMqMessage<string>()
+        private readonly ILogger _logger = logger;
+
+        public Task Handle(QueueCommandsEvent notification, CancellationToken cancellationToken)
         {
-            TimeToLive = TimeSpan.FromMinutes(1),
-            Body = notification.Data.ToJson()
-        };
+            // using var scope = scopeFactory.CreateScope();
+            // var rabbitMqClientProvider = scope.ServiceProvider.GetRequiredService<IMessageProducer>();
+            // var message = new RabbitMqMessage<string>()
+            // {
+            //    TimeToLive = TimeSpan.FromMinutes(1),
+            //    Body = notification.Data.ToJson()
+            // };
 
-        await rabbitMqClientProvider.SendMessageAsync(message, "ExchangeMonitor");
-        _logger.LogInformation($"Message was sent to the queue");
+            // await rabbitMqClientProvider.SendMessageAsync(message, "ExchangeMonitor");
+            _logger.LogInformation($"Message was sent to the queue");
+            return Task.CompletedTask;
+        }
     }
-
 }
-

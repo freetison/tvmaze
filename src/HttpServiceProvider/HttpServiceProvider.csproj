@@ -25,10 +25,6 @@
       </PackageReference>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Http\" />
-    </ItemGroup>
-
     
 
 </Project>

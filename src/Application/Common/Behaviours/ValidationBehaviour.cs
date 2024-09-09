@@ -4,8 +4,6 @@
 
     using MediatR;
 
-    using ValidationException = TvMaze.Application.Common.Exceptions.ValidationException;
-
     /// <summary>
     /// Defines the <see cref="ValidationBehaviour{TRequest, TResponse}" />.
     /// </summary>

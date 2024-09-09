@@ -1,4 +1,4 @@
-﻿namespace TvMaze.Application.Common.Exceptions
+﻿namespace TvMaze.ShareCommon.Exceptions
 {
     using System.Diagnostics.CodeAnalysis;
     using Microsoft.AspNetCore.Mvc;

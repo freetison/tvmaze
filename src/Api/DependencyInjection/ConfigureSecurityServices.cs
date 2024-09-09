@@ -1,7 +1,7 @@
 ﻿namespace TvMaze.Api.DependencyInjection
 {
     using System.Threading.RateLimiting;
-    using TvMaze.Application.Common.Models.Settings;
+    using TvMaze.ShareCommon.Models.Settings;
 
     /// <summary>
     /// Defines the <see cref="ConfigureSecurityServices" />.
@@ -12,9 +12,9 @@
         /// The AddSecurityServices.
         /// </summary>
         /// <param name="services">The services<see cref="IServiceCollection"/>.</param>
-        /// <param name="apiSettings">The apiSettings<see cref="ApiSettings"/>.</param>
+        /// <param name="appSettings">The appSettings<see cref="AppSettings"/>.</param>
         /// <returns>The <see cref="IServiceCollection"/>.</returns>
-        public static IServiceCollection AddSecurityServices(this IServiceCollection services, ApiSettings apiSettings)
+        public static IServiceCollection AddSecurityServices(this IServiceCollection services, AppSettings appSettings)
         {
             services
                  .AddRateLimiter(options =>
@@ -42,7 +42,7 @@
                             if (context.Resource is HttpContext httpContext)
                             {
                                 return httpContext.Request.Headers.TryGetValue("X-API-KEY", out var extractedApiKey) &&
-                                       extractedApiKey == apiSettings.Options.ApiKey;
+                                       extractedApiKey == appSettings.Options.ApiKey;
                             }
 
                             return false;

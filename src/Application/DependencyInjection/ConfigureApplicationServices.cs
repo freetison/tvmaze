@@ -10,7 +10,6 @@
 
     using TvMaze.Application.Common.Behaviours;
     using TvMaze.Application.Common.Interfaces;
-    using TvMaze.Application.Features;
     using TvMaze.Application.Features.Job.Run.EventHandlers;
     using TvMaze.Application.Infrastructure.Services;
 
@@ -41,8 +40,7 @@
                 options.AddOpenBehavior(typeof(UnhandledExceptionBehaviour<,>));
             });
 
-            // services.AddAppFeatures();
-            services.AddScoped(sp => ActivatorUtilities.CreateInstance<BaseFeature>(sp));
+            // services.AddScoped(sp => ActivatorUtilities.CreateInstance<BaseFeature>(sp));
             services.AddScoped<IRequestHandler<RunJobCommand, Unit>, RunJobCommandHandler>();
 
             return services;

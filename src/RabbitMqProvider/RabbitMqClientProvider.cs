@@ -47,24 +47,24 @@
         {
             _channel.QueueDeclare(
                 queue: queueName,
-                durable: false,
+                durable: true,
                 exclusive: false,
                 autoDelete: false,
                 arguments: null);
 
-            var consumer = new EventingBasicConsumer(_channel);
+            var consumer = new AsyncEventingBasicConsumer(_channel);
             T? receivedMessage = default;
 
-            consumer.Received += (model, ea) =>
+            consumer.Received += async (model, ea) =>
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
-                receivedMessage = message.ParseTo<T?>();
+                receivedMessage = await Task.Run(() => message.ParseTo<T?>());
             };
 
             _channel.BasicConsume(
                 queue: queueName,
-                autoAck: true,
+                autoAck: false,
                 consumer: consumer);
 
             return Task.FromResult(receivedMessage ?? default);

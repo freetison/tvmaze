@@ -1,4 +1,4 @@
-﻿namespace TvMaze.Application.Common.Models.Settings
+﻿namespace TvMaze.ShareCommon.Models.Settings
 {
     using System.Diagnostics.CodeAnalysis;
 

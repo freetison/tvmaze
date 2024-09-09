@@ -2,7 +2,7 @@
 {
     using FluentValidation.Results;
     using Shouldly;
-    using TvMaze.Application.Common.Exceptions;
+    using TvMaze.ShareCommon.Exceptions;
     using Xunit;
 
     /// <summary>

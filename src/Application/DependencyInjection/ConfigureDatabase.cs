@@ -2,8 +2,8 @@
 {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
-    using TvMaze.Application.Common.Models.Settings;
     using TvMaze.Application.Infrastructure.Persistence;
+    using TvMaze.ShareCommon.Models.Settings;
 
     /// <summary>
     /// Defines the <see cref="ConfigureDatabase" />.
@@ -19,11 +19,11 @@
         /// The AddSqlserver.
         /// </summary>
         /// <param name="services">The services<see cref="IServiceCollection"/>.</param>
-        /// <param name="apiSettings">The apiSettings<see cref="ApiSettings"/>.</param>
+        /// <param name="appSettings">The appSettings<see cref="AppSettings"/>.</param>
         /// <returns>The <see cref="IServiceCollection"/>.</returns>
-        public static IServiceCollection AddSqlserver(this IServiceCollection services, ApiSettings apiSettings)
+        public static IServiceCollection AddSqlserver(this IServiceCollection services, AppSettings appSettings)
         {
-            if (apiSettings.Options.UseInMemoryDatabase)
+            if (appSettings.Options.UseInMemoryDatabase)
             {
                 services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseInMemoryDatabase(DatabaseName));
@@ -32,7 +32,7 @@
             {
                 services.AddDbContext<ApplicationDbContext>(options =>
                   options.UseSqlServer(
-                      apiSettings.ConnectionStrings.SqlServer,
+                      appSettings.ConnectionStrings.SqlServer,
                       sqlServerOptionsAction: sqlOptions => sqlOptions.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
             }
 

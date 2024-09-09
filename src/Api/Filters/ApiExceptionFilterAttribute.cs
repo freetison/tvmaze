@@ -2,7 +2,7 @@
 {
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Filters;
-    using TvMaze.Application.Common.Exceptions;
+    using TvMaze.ShareCommon.Exceptions;
 
     /// <summary>
     /// Defines the <see cref="ApiExceptionFilterAttribute" />.

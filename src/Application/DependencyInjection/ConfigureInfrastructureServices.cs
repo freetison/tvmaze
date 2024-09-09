@@ -2,9 +2,9 @@
 {
     using Microsoft.Extensions.DependencyInjection;
     using StackExchange.Redis;
-    using TvMaze.Application.Common.Models.Settings;
     using TvMaze.HttpServiceProvider.DependencyInjection;
     using TvMaze.RabbitMqProvider.DependencyInjection;
+    using TvMaze.ShareCommon.Models.Settings;
 
     /// <summary>
     /// Defines the <see cref="ConfigureInfrastructureServices" />.
@@ -15,19 +15,19 @@
         /// The AddInfrastructure.
         /// </summary>
         /// <param name="services">The services<see cref="IServiceCollection"/>.</param>
-        /// <param name="apiSettings">The apiSettings<see cref="ApiSettings"/>.</param>
+        /// <param name="appSettings">The appSettings<see cref="AppSettings"/>.</param>
         /// <returns>The <see cref="IServiceCollection"/>.</returns>
-        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, ApiSettings apiSettings)
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, AppSettings appSettings)
         {
-            services.AddSqlserver(apiSettings);
+            services.AddSqlserver(appSettings);
 
             services.AddSingleton<IConnectionMultiplexer>(sp =>
              {
-                 return ConnectionMultiplexer.Connect(apiSettings.ConnectionStrings.Redis);
+                 return ConnectionMultiplexer.Connect(appSettings.ConnectionStrings.Redis);
              });
 
-            services.AddRabbitMqProvider(apiSettings.RabbitMq);
-            services.AddHttpProviders(apiSettings.ExternalApi.BaseUrl);
+            services.AddRabbitMqProvider(appSettings.RabbitMq);
+            services.AddHttpProviders(appSettings.ExternalApi.BaseUrl);
 
             services.AddAppServices();
 

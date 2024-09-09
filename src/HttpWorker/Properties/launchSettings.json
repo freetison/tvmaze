@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "ExchangeHttpWorker": {
+    "HttpWorker": {
       "commandName": "Project",
       "environmentVariables": {
         "DOTNET_ENVIRONMENT": "Development"

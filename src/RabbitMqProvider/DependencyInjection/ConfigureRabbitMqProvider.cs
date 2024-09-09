@@ -3,7 +3,7 @@
     using Microsoft.Extensions.DependencyInjection;
     using RabbitMQ.Client;
     using TvMaze.RabbitMqProvider;
-    using TvMaze.RabbitMqProvider.Models;
+    using TvMaze.ShareCommon.Models.Settings;
 
     /// <summary>
     /// Defines the <see cref="ConfigureRabbitMqProvider" />.
@@ -18,22 +18,22 @@
         /// <returns>The <see cref="IServiceCollection"/>.</returns>
         public static IServiceCollection AddRabbitMqProvider(this IServiceCollection services, RabbitMqSettings rabbitMqSettings)
         {
+            services.AddSingleton(rabbitMqSettings);
             var connectionFactory = new ConnectionFactory
             {
                 UserName = rabbitMqSettings.RabbitMqUserName,
                 Password = rabbitMqSettings.RabbitMqPassword,
-                HostName = rabbitMqSettings.RabbitMqHostName,
-                Port = rabbitMqSettings.RabbitMqPort,
+                HostName = rabbitMqSettings.RabbitMqHostName ?? "localhost",
+                Port = rabbitMqSettings?.RabbitMqPort ?? 5672,
                 DispatchConsumersAsync = true,
                 AutomaticRecoveryEnabled = true,
-                ConsumerDispatchConcurrency = rabbitMqSettings.RabbitMqConcurrency,
+                ConsumerDispatchConcurrency = rabbitMqSettings?.RabbitMqConcurrency ?? 50,
             };
-
-            services.AddSingleton(rabbitMqSettings);
             services.AddSingleton<IConnectionFactory>(_ => connectionFactory);
-            services.AddSingleton(sp => ActivatorUtilities.CreateInstance<ModelFactory>(sp));
-            services.AddSingleton(x => x.GetRequiredService<ModelFactory>().CreateChannel());
+            services.AddSingleton<ModelFactory>();
+            services.AddSingleton(sp => sp.GetRequiredService<ModelFactory>().CreateChannel());
             services.AddSingleton<IRabbitMqClientProvider, RabbitMqClientProvider>();
+
             return services;
         }
     }

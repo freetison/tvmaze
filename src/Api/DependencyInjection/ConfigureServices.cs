@@ -1,6 +1,6 @@
 ﻿namespace TvMaze.Api.DependencyInjection
 {
-    using TvMaze.Application.Common.Models.Settings;
+    using TvMaze.ShareCommon.Models.Settings;
 
     /// <summary>
     /// Defines the <see cref="ConfigureServices" />.
@@ -11,17 +11,17 @@
         /// The ConfigureAppSettings.
         /// </summary>
         /// <param name="services">The services<see cref="IServiceCollection"/>.</param>
-        /// <param name="apiSettings">The apiSettings<see cref="ApiSettings"/>.</param>
+        /// <param name="appSettings">The appSettings<see cref="AppSettings"/>.</param>
         /// <returns>The <see cref="IServiceCollection"/>.</returns>
-        public static IServiceCollection AddApiServices(this IServiceCollection services, ApiSettings apiSettings)
+        public static IServiceCollection AddApiServices(this IServiceCollection services, AppSettings appSettings)
         {
             services
-                .AddSingleton(apiSettings)
+                .AddSingleton(appSettings)
                 .AddApiLogging()
                 .AddCommonServices()
-                .AddSwaggerService(apiSettings)
-                .AddSecurityServices(apiSettings)
-                .AddHttpServices(apiSettings);
+                .AddSwaggerService(appSettings)
+                .AddSecurityServices(appSettings)
+                .AddHttpServices(appSettings);
 
             return services;
         }

@@ -1,7 +1,9 @@
 ﻿namespace TvMaze.RabbitMqProvider
 {
     using RabbitMQ.Client;
-    using TvMaze.RabbitMqProvider.Models;
+    using RabbitMQ.Client.Exceptions;
+    using TvMaze.ShareCommon.Exceptions;
+    using TvMaze.ShareCommon.Models.Settings;
 
     /// <summary>
     /// Defines the <see cref="ModelFactory" />.
@@ -26,7 +28,7 @@
         public ModelFactory(IConnectionFactory connectionFactory, RabbitMqSettings rabbitMqSettings)
         {
             _rabbitMqSettings = rabbitMqSettings;
-            _connection = connectionFactory.CreateConnection();
+            _connection = StartConnection(connectionFactory);
         }
 
         /// <summary>
@@ -35,17 +37,31 @@
         /// <returns>The <see cref="IModel"/>.</returns>
         public IModel CreateChannel()
         {
-            IModel channel = _connection.CreateModel();
-            channel.ExchangeDeclare(exchange: _rabbitMqSettings.ExchangeName, type: RabbitMQ.Client.ExchangeType.Direct, durable: true);
+            var channel = _connection.CreateModel();
+            channel.ExchangeDeclare(_rabbitMqSettings.ExchangeName, ExchangeType.Direct, durable: true);
             return channel;
         }
 
         /// <summary>
         /// The Dispose.
         /// </summary>
-        public void Dispose()
+        public void Dispose() => _connection?.Dispose();
+
+        /// <summary>
+        /// The StartConnection.
+        /// </summary>
+        /// <param name="connectionFactory">The connectionFactory<see cref="IConnectionFactory"/>.</param>
+        /// <returns>The <see cref="IConnection"/>.</returns>
+        private IConnection StartConnection(IConnectionFactory connectionFactory)
         {
-            _connection.Dispose();
+            try
+            {
+                return connectionFactory.CreateConnection();
+            }
+            catch (BrokerUnreachableException)
+            {
+                throw new UnreachableRabbitMqServerException();
+            }
         }
     }
 }

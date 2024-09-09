@@ -1,4 +1,4 @@
-﻿namespace TvMaze.Application.Common.Models.Settings
+﻿namespace TvMaze.ShareCommon.Models.Settings
 {
     /// <summary>
     /// Defines the <see cref="ConnectionStrings" />.
@@ -8,11 +8,11 @@
         /// <summary>
         /// Gets or sets the Redis.
         /// </summary>
-        required public string Redis { get; set; }
+        public string Redis { get; set; }
 
         /// <summary>
         /// Gets or sets the SqlServer.
         /// </summary>
-        required public string SqlServer { get; set; }
+        public string SqlServer { get; set; }
     }
 }

@@ -2,8 +2,8 @@
 {
     using System.Text;
     using RestSharp;
-    using TvMaze.Application.Common.Models.Settings;
     using TvMaze.Application.Infrastructure.Utils;
+    using TvMaze.ShareCommon.Models.Settings;
 
     /// <summary>
     /// Defines the <see cref="ConfigureHttpServices" />.
@@ -14,13 +14,13 @@
         /// The AddHttpServices.
         /// </summary>
         /// <param name="services">The services<see cref="IServiceCollection"/>.</param>
-        /// <param name="apiSettings">The apiSettings<see cref="ApiSettings"/>.</param>
+        /// <param name="appSettings">The appSettings<see cref="AppSettings"/>.</param>
         /// <returns>The <see cref="IServiceCollection"/>.</returns>
-        public static IServiceCollection AddHttpServices(this IServiceCollection services, ApiSettings apiSettings)
+        public static IServiceCollection AddHttpServices(this IServiceCollection services, AppSettings appSettings)
         {
             services.AddSingleton<IRestClient>(sp =>
             {
-                var baseUrl = apiSettings?.ExternalApi?.BaseUrl ?? string.Empty;
+                var baseUrl = appSettings?.ExternalApi?.BaseUrl ?? string.Empty;
 
                 var options = new RestClientOptions(baseUrl)
                 {
