@@ -8,16 +8,16 @@
     public interface ITvMazeApiClient
     {
         /// <summary>
-        /// The GetShows.
+        /// The GetAllShows.
         /// </summary>
         /// <returns>The <see cref="Task{Show}"/>.</returns>
-        Task<Show> GetShows();
+        Task<List<ShowInfo?>> GetAllShows();
 
         /// <summary>
         /// The GetShow.
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
         /// <returns>The <see cref="Task{Show}"/>.</returns>
-        Task<Show> GetShow(int id);
+        Task<ShowInfo?> GetShow(int id);
     }
 }

@@ -1,7 +1,6 @@
 ﻿namespace TvMaze.Application.DependencyInjection
 {
     using Microsoft.Extensions.DependencyInjection;
-
     using TvMaze.Application.Common.Interfaces;
     using TvMaze.Application.Infrastructure.Services;
 
@@ -19,6 +18,7 @@
         {
             services.AddTransient<IDateTime, DateTimeService>();
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
+
             return services;
         }
     }

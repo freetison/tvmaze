@@ -443,8 +443,12 @@ dotnet_diagnostic.SA1111.severity = none
 # SA1011 Closing square bracket should be followed by a space.
 dotnet_diagnostic.SA1011.severity = none
 
-#  Non-nullable property must contain a non-null value when exiting constructor. 
+# Non-nullable property must contain a non-null value when exiting constructor. 
 dotnet_diagnostic.CS8618.severity = none
+
+# Code should not contain multiple statement
+dotnet_diagnostic.SA1107.severity = none
+
 
 [src/Api/Program.cs]
 # Disable SA1200 for Program.cs file

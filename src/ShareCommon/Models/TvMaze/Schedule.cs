@@ -1,18 +1,22 @@
 ﻿namespace TvMaze.ShareCommon.Models.TvMaze
 {
+    using Newtonsoft.Json;
+
     /// <summary>
     /// Defines the <see cref="Schedule" />.
     /// </summary>
     public class Schedule
     {
         /// <summary>
-        /// Gets or sets the Days.
+        /// Gets or sets the Time.
         /// </summary>
-        public string[]? Days { get; set; }
+        [JsonProperty("time")]
+        public string Time { get; set; }
 
         /// <summary>
-        /// Gets or sets set Defines the Time.
+        /// Gets or sets the Days.
         /// </summary>
-        public string? Time { get; set; }
+        [JsonProperty("days")]
+        public List<string> Days { get; set; }
     }
 }

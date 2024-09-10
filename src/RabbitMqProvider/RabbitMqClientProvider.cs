@@ -2,10 +2,14 @@
 {
     using System.Text;
     using System.Threading.Tasks;
+
     using Microsoft.Extensions.Logging;
+
     using Newtonsoft.Json;
+
     using RabbitMQ.Client;
     using RabbitMQ.Client.Events;
+
     using Tx.Core.Extensions.String;
 
     /// <summary>

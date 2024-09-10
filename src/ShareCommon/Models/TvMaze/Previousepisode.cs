@@ -1,18 +1,22 @@
 ﻿namespace TvMaze.ShareCommon.Models.TvMaze
 {
+    using Newtonsoft.Json;
+
     /// <summary>
-    /// Defines the <see cref="Link" />.
+    /// Defines the <see cref="Previousepisode" />.
     /// </summary>
-    public class Link
+    public class Previousepisode
     {
         /// <summary>
         /// Gets or sets the Href.
         /// </summary>
-        public string? Href { get; set; }
+        [JsonProperty("href")]
+        public string Href { get; set; }
 
         /// <summary>
         /// Gets or sets the Name.
         /// </summary>
-        public string? Name { get; set; }
+        [JsonProperty("name")]
+        public string Name { get; set; }
     }
 }

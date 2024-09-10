@@ -1,5 +1,7 @@
 ﻿namespace TvMaze.ShareCommon.Models.TvMaze
 {
+    using Newtonsoft.Json;
+
     /// <summary>
     /// Defines the <see cref="Image" />.
     /// </summary>
@@ -8,11 +10,13 @@
         /// <summary>
         /// Gets or sets the Medium.
         /// </summary>
-        public string? Medium { get; set; }
+        [JsonProperty("medium")]
+        public string Medium { get; set; }
 
         /// <summary>
         /// Gets or sets the Original.
         /// </summary>
-        public string? Original { get; set; }
+        [JsonProperty("original")]
+        public string Original { get; set; }
     }
 }

@@ -28,6 +28,7 @@
     <PackageReference Include="RestSharp" Version="112.0.0" />
     <PackageReference Include="StackExchange.Redis" Version="2.8.0" />
     <PackageReference Include="System.Formats.Asn1" Version="8.0.1" />
+    <PackageReference Include="Tx.Core.GenericFactory" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>

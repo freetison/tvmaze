@@ -15,14 +15,24 @@
         private readonly IFlurlClient _flurlCli = clients.Get("TvMazeApi");
 
         /// <summary>
-        /// The GetShows.
+        /// The GetAllShows.
         /// </summary>
         /// <returns>The <see cref="Task{Show}"/>.</returns>
-        public async Task<Show> GetShows()
+        public async Task<ShowInfo?> GetAllShows()
         {
-            return await _flurlCli
-                .Request("shows")
-                .GetJsonAsync<Show>();
+            try
+            {
+                var result = await _flurlCli
+                .Request("shows/1")
+                .GetJsonAsync<ShowInfo>();
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                throw;
+            }
         }
 
         /// <summary>
@@ -30,11 +40,11 @@
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
         /// <returns>The <see cref="Task{Show}"/>.</returns>
-        public async Task<Show> GetShow(int id)
+        public async Task<ShowInfo?> GetShow(int id)
         {
             return await _flurlCli
                 .Request($"shows/{id}")
-                .GetJsonAsync<Show>();
+                .GetJsonAsync<ShowInfo>();
         }
     }
 }
