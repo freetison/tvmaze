@@ -5,9 +5,9 @@
     using TvMaze.RabbitMqProvider;
 
     /// <summary>
-    /// Defines the <see cref="RunJobCommandHandler" />.
+    /// Defines the <see cref="PullJobCommandHandler" />.
     /// </summary>
-    public class RunJobCommandHandler : IRequestHandler<RunJobCommand, Unit>
+    public class PullJobCommandHandler : IRequestHandler<RunJobCommand, Unit>
     {
         private const string RoutingKey = "CommandQueue";
 
@@ -17,10 +17,10 @@
         private readonly IRabbitMqClientProvider _messageClientProvider;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="RunJobCommandHandler"/> class.
+        /// Initializes a new instance of the <see cref="PullJobCommandHandler"/> class.
         /// </summary>
         /// <param name="messageClientProvider">The messageClientProvider<see cref="IRabbitMqClientProvider"/>.</param>
-        public RunJobCommandHandler(IRabbitMqClientProvider messageClientProvider)
+        public PullJobCommandHandler(IRabbitMqClientProvider messageClientProvider)
         {
             _messageClientProvider = messageClientProvider;
         }
@@ -33,7 +33,8 @@
         /// <returns>The <see cref="Task{Unit}"/>.</returns>
         public Task<Unit> Handle(RunJobCommand request, CancellationToken cancellationToken)
         {
-            _messageClientProvider.PublishMessage<string>("PULL", "amq.direct", RoutingKey);
+            // var message = new QueueMessage<string>("PullCommand", "PULL");
+            _messageClientProvider.PublishMessage("PULL", "amq.direct", RoutingKey);
             return Task.FromResult(Unit.Value);
         }
     }

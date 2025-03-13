@@ -11,13 +11,13 @@
         /// The GetAllShows.
         /// </summary>
         /// <returns>The <see cref="Task{Show}"/>.</returns>
-        Task<List<ShowInfo?>> GetAllShows();
+        Task<IEnumerable<ShowInfo>> GetAllShows();
 
         /// <summary>
         /// The GetShow.
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
         /// <returns>The <see cref="Task{Show}"/>.</returns>
-        Task<ShowInfo?> GetShow(int id);
+        ValueTask<ShowInfo?> GetShow(int id);
     }
 }

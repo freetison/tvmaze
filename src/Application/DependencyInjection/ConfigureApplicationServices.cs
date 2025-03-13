@@ -41,7 +41,7 @@
             });
 
             // services.AddScoped(sp => ActivatorUtilities.CreateInstance<BaseFeature>(sp));
-            services.AddScoped<IRequestHandler<RunJobCommand, Unit>, RunJobCommandHandler>();
+            services.AddScoped<IRequestHandler<RunJobCommand, Unit>, PullJobCommandHandler>();
 
             return services;
         }

@@ -1,25 +1,22 @@
 ﻿namespace TvMaze.HttpWorker.Commands
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
-
-    using TvMaze.HttpServiceProvider;
+    using TvMaze.ShareCommon.Models.TvMaze;
 
     /// <summary>
     /// Defines the <see cref="PullCommand" />.
     /// </summary>
-    public class PullCommand(IServiceScopeFactory scopeFactory) : AppCommand<string, ShowInfo?>
+    public class PullCommand() : IAppCommand<string, List<ShowInfo?>>
     {
         /// <summary>
-        /// The ProcessAsync.
+        /// The ExecuteAsync.
         /// </summary>
         /// <param name="input">The input<see cref="string"/>.</param>
-        /// <returns>The task.</returns>
-        public override async Task<ShowInfo?> ProcessAsync(string input)
+        /// <returns>List{ShowInfo.</returns>
+        public Task<List<ShowInfo?>> ExecuteAsync(string input)
         {
-            using var scope = scopeFactory.CreateScope();
-            var tvMazeApiClient = scope.ServiceProvider.GetRequiredService<ITvMazeApiClient>();
-            var tvMazeData = await tvMazeApiClient.GetAllShows();
-            return tvMazeData;
+            throw new NotImplementedException();
         }
     }
 }

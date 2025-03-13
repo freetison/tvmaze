@@ -1,5 +1,6 @@
 ﻿namespace TvMaze.HttpServiceProvider
 {
+    using System.Collections.Generic;
     using Flurl.Http;
     using Flurl.Http.Configuration;
     using TvMaze.ShareCommon.Models.TvMaze;
@@ -17,34 +18,28 @@
         /// <summary>
         /// The GetAllShows.
         /// </summary>
-        /// <returns>The <see cref="Task{Show}"/>.</returns>
-        public async Task<ShowInfo?> GetAllShows()
+        /// <returns>The <see cref="IAsyncEnumerable{ShowInfo}"/>.</returns>
+        public async Task<IEnumerable<ShowInfo>> GetAllShows()
         {
-            try
-            {
-                var result = await _flurlCli
-                .Request("shows/1")
-                .GetJsonAsync<ShowInfo>();
+            var result = await _flurlCli
+                .Request("shows")
+                .GetJsonAsync<IEnumerable<ShowInfo>>();
 
-                return result;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex);
-                throw;
-            }
+            return result;
         }
 
         /// <summary>
         /// The GetShow.
         /// </summary>
         /// <param name="id">The id<see cref="int"/>.</param>
-        /// <returns>The <see cref="Task{Show}"/>.</returns>
-        public async Task<ShowInfo?> GetShow(int id)
+        /// <returns>ShowInfo.</returns>
+        async ValueTask<ShowInfo?> ITvMazeApiClient.GetShow(int id)
         {
-            return await _flurlCli
+            var result = await _flurlCli
                 .Request($"shows/{id}")
                 .GetJsonAsync<ShowInfo>();
+
+            return result;
         }
     }
 }

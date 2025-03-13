@@ -2,21 +2,19 @@
 {
     using System.Threading.Tasks;
 
-    using TvMaze.ShareCommon.Models.TvMaze;
-
     /// <summary>
     /// Defines the <see cref="PushCommand" />.
     /// </summary>
-    public class PushCommand : AppCommand<string, ShowInfo?>
+    public class PushCommand : IAppCommand<string, string>
     {
         /// <summary>
-        /// The ProcessAsync.
+        /// The ExecuteAsync.
         /// </summary>
         /// <param name="input">The input<see cref="string"/>.</param>
-        /// <returns>The task.</returns>
-        public override Task<ShowInfo?> ProcessAsync(string input)
+        /// <returns>string.</returns>
+        public Task<string> ExecuteAsync(string input)
         {
-            return Task.FromResult<ShowInfo?>(null);
+            throw new NotImplementedException();
         }
     }
 }

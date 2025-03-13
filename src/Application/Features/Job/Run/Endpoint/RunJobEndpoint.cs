@@ -18,7 +18,7 @@
         /// <returns>The <see cref="IEndpointRouteBuilder"/>.</returns>
         public IEndpointRouteBuilder MapEndpoints(IEndpointRouteBuilder endpoints)
         {
-            endpoints.MapPost("api/v1/run-job", async (IMediator mediator, RunJobCommand request) =>
+            endpoints.MapPost("api/v1/job/pull", async (IMediator mediator, RunJobCommand request) =>
             {
                 var result = await mediator.Send(request);
                 return Results.Ok(result);
